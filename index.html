@@ -19,6 +19,10 @@
     h2 { margin-top:2.2rem; }
     li { margin:.45rem 0; }
     .note { font-family:Arial,sans-serif; color:var(--muted); font-size:.92rem; }
+    .speed { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:8px 0 16px; font-family:Arial,sans-serif; }
+    .speed span { font-weight:700; margin-right:4px; }
+    .speed button { border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:7px; padding:7px 10px; font-weight:700; cursor:pointer; }
+    .speed button.active { background:var(--accent); color:#fff; border-color:var(--accent); }
     footer { border-top:1px solid var(--line); margin-top:48px; padding-top:20px; font-family:Arial,sans-serif; font-size:.9rem; color:var(--muted); }
   </style>
 </head>
@@ -31,10 +35,19 @@
   <section class="player">
     <h2>Listen</h2>
     <audio controls preload="metadata">
-      <source src="The_Crab_Pot_Podcast.mp3" type="audio/mpeg">
+      <source src="The_Crab_Pot_Podcast_web.mp3" type="audio/mpeg">
       Your browser does not support embedded audio.
     </audio>
-    <p><a class="button" href="The_Crab_Pot_Podcast.mp3" download>Download the MP3</a></p>
+    <div class="speed" aria-label="Playback speed">
+      <span>Speed:</span>
+      <button type="button" data-speed="0.75">0.75×</button>
+      <button type="button" data-speed="1">1×</button>
+      <button type="button" data-speed="1.25">1.25×</button>
+      <button type="button" data-speed="1.5">1.5×</button>
+      <button type="button" data-speed="1.75">1.75×</button>
+      <button type="button" data-speed="2">2×</button>
+    </div>
+    <p><a class="button" href="The_Crab_Pot_Podcast_web.mp3" download>Download the MP3</a></p>
     <p class="note">Approximately 21 minutes. AI-generated audio based on course notes and research discussion.</p>
   </section>
 
@@ -57,5 +70,17 @@
     <p>Prepared for economics course discussion. This page is intended as a discussion prompt rather than a substitute for the underlying research.</p>
   </footer>
 </main>
+<script>
+  const player = document.querySelector('audio');
+  const speedButtons = document.querySelectorAll('[data-speed]');
+  speedButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      player.playbackRate = Number(btn.dataset.speed);
+      speedButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+  document.querySelector('[data-speed="1"]').classList.add('active');
+</script>
 </body>
 </html>
